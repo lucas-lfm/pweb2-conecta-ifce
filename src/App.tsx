@@ -1,5 +1,6 @@
 import Navbar from "@/components/shared/navbar"
 import { Button } from "./components/ui/button"
+import Footer from "@/components/shared/footer"
 
 function App() {
 
@@ -11,9 +12,8 @@ function App() {
           Conteúdo Principal
         </main>
 
-        <footer>
-          Rodapé
-        </footer>
+        <Footer />
+
       </div>
     </>
   )
