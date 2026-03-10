@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles } from "lucide-react"
+import { Link } from "react-router"
 
 function HeroSection() {
   return (
@@ -17,10 +18,10 @@ function HeroSection() {
         <p className="mt-6 text-muted-foreground text-xl text-balance"> A plataforma que une alunos, professores e técnicos para compartilhar projetos, formar um grupo de estudos e celebrar conquistas acadêmicas.</p>
 
         <Button className="mt-10" size="lg" asChild>
-          <a href="/register" className="flex gap-2 items-center w-60 h-12">
+          <Link to="/register" className="flex gap-2 items-center w-60 h-12">
             <span className="uppercase tracking-wider ">Participar Agora</span>
             <ArrowRight className="size-4"/>
-          </a>
+          </Link>
         </Button>
 
         <div className="mt-16 flex items-center gap-8 text-sm text-muted-foreground">
