@@ -1,10 +1,20 @@
+import Navbar from "@/components/shared/navbar"
 import { Button } from "./components/ui/button"
 
 function App() {
 
   return (
     <>
-      <div className=""><Button>Entrar</Button></div>
+      <div className="flex flex-col min-h-svh">
+        <Navbar />
+        <main className="flex-1">
+          Conteúdo Principal
+        </main>
+
+        <footer>
+          Rodapé
+        </footer>
+      </div>
     </>
   )
 }
