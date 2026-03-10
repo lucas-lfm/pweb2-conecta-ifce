@@ -1,6 +1,6 @@
 import Navbar from "@/components/shared/navbar"
-import { Button } from "./components/ui/button"
 import Footer from "@/components/shared/footer"
+import HomePage from "@/pages/HomePage"
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
       <div className="flex flex-col min-h-svh">
         <Navbar />
         <main className="flex-1">
-          Conteúdo Principal
+          <HomePage  />
         </main>
 
         <Footer />
