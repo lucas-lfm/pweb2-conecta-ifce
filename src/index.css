@@ -128,6 +128,6 @@ body {
 
 @layer utilities {
   .bg-soft-radial {
-    background: radial-gradient(ellipse at top, oklch(from var(--color-primary) l c h / 0.08), transparent 60%);
+    background-image: radial-gradient(ellipse at top, oklch(from var(--color-primary) l c h / 0.08), transparent 60%);
   }
 }
