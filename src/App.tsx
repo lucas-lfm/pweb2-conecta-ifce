@@ -1,6 +1,7 @@
 import Navbar from "@/components/shared/navbar"
 import Footer from "@/components/shared/footer"
 import LoginPage from "@/pages/LoginPage"
+import RegisterPage from "@/pages/RegisterPage"
 
 function App() {
 
@@ -10,7 +11,8 @@ function App() {
         <Navbar />
         <main className="flex-1 flex flex-col">
           {/**<HomePage  />**/}
-          <LoginPage />
+          {/**<LoginPage />**/}
+          <RegisterPage />
         </main>
         <Footer />
       </div>
