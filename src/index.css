@@ -5,7 +5,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
 :root {
+    --info: #00f;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -75,6 +80,7 @@
 }
 
 @theme inline {
+    --color-info: #00f;
     --font-sans: 'Geist Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -126,4 +132,10 @@
   html {
     @apply font-sans;
     }
+}
+
+@layer components {
+  .container-main {
+    @apply max-w-7x1 mx-auto px-4 lg:px-8;
+  }
 }
