@@ -1,7 +1,6 @@
 import Navbar from "@/components/shared/navbar"
 import Footer from "@/components/shared/footer"
-import LoginPage from "@/pages/LoginPage"
-import RegisterPage from "@/pages/RegisterPage"
+import { Outlet } from "react-router"
 
 function App() {
 
@@ -10,9 +9,7 @@ function App() {
       <div className="flex flex-col min-h-svh">
         <Navbar />
         <main className="flex-1 flex flex-col">
-          {/**<HomePage  />**/}
-          {/**<LoginPage />**/}
-          <RegisterPage />
+          <Outlet />
         </main>
         <Footer />
       </div>
