@@ -4,11 +4,33 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { registerSchema } from "@/schemas/register.schema"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { useState } from "react"
+import { ZodError } from "zod"
 
 function RegisterPage() {
   const [showPass, setShowPass] = useState<boolean>(false)
+
+  const handleSubmit = (event: React.SubmitEvent) => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+
+    const data = {
+      firstName: formData.get('firstName'),
+      password: formData.get('password')
+    }
+
+    try {
+      const validData = registerSchema.parse(data)
+      console.log(validData)
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.log(error)
+      }
+    }
+
+  }
 
   return (
     <section className="flex-1 flex items-center justify-center py-20">
@@ -29,21 +51,21 @@ function RegisterPage() {
         </CardHeader>
 
         <CardContent>
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex items-center gap-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="nome" className="text-foreground">Nome</Label>
+                <Label htmlFor="firstName" className="text-foreground">Nome</Label>
                 <Input
-                id="nome" name="nome" type="text"
+                id="firstName" name="firstName" type="text"
                 placeholder="Seu nome" required
                 className="h-11 bg-background"/>
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="sobrenome" className="text-foreground">Sobrenome</Label>
+                <Label htmlFor="lastName" className="text-foreground">Sobrenome</Label>
                 <Input
-                id="sobrenome" name="sobrenome" type="text"
-                placeholder="Seu sobrenome" required
+                id="lastName" name="lastName" type="text"
+                placeholder="Seu sobrenome"
                 className="h-11 bg-background"/>
               </div>
             </div>
@@ -52,7 +74,7 @@ function RegisterPage() {
               <Label htmlFor="email" className="text-foreground">E-mail Institucional</Label>
               <Input
               id="email" name="email" type="email"
-              placeholder="seu.nome@ifce.edu.br" required
+              placeholder="seu.nome@ifce.edu.br"
               className="h-11 bg-background"/>
             </div>
 
@@ -61,7 +83,7 @@ function RegisterPage() {
                 Vínculo
               </Label>
 
-              <Select required>
+              <Select>
                 <SelectTrigger id="role" className="bg-background w-full">
                   <SelectValue placeholder="Selecione seu vínculo com o IFCE"/>
                 </SelectTrigger>
@@ -79,7 +101,7 @@ function RegisterPage() {
                 Campus
               </Label>
 
-              <Select required>
+              <Select>
                 <SelectTrigger id="campus" className="bg-background w-full">
                   <SelectValue placeholder="Selecione seu Campus"/>
                 </SelectTrigger>
