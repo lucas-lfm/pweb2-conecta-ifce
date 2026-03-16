@@ -22,7 +22,8 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
-      '@typescript-eslint/np-unused-vars': "warn"
+      '@typescript-eslint/np-unused-vars': "warn",
+      '@typescript-eslint/no-explicity-any': "warn"
     }
   },
 ])

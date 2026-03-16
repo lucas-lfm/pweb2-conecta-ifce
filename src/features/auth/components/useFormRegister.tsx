@@ -1,4 +1,6 @@
 import { registerSchema, type RegisterFormData } from "@/features/auth/schemas/register.schema"
+import { setAccessToken } from "@/features/auth/storage/auth.storage"
+import { http } from "@/infra/http/http-client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -16,13 +18,11 @@ export function useFormRegister() {
 
   useEffect(() => {
     async function fetchCampuses() {
-      const response = await fetch(
-        'https://conectaifce-api.proflucasmendes.com.br/campuses',
-      )
-
-      if (response.ok) {
-        const data = await response.json()
-        setCampuses(data)
+      try {
+        const campuses = await http.get<Array<{id: string, name: string}>>('campuses')
+        setCampuses(campuses)
+      } catch (error) {
+        console.error(error)
       }
     }
 
@@ -44,22 +44,12 @@ export function useFormRegister() {
     const { course, ...rest } = data
     const payload = data.role === 'student' ? data : rest
 
-    const response = await fetch(
-      'https://conectaifce-api.proflucasmendes.com.br/auth/register',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      },
-    )
-
-    if (response.ok) {
-      const responseData = await response.json()
-      console.log(responseData)
-      localStorage.setItem('access_token', responseData.token)
+    try {
+      const responseData = await http.post<{ token: string, user: any }>('auth/register', payload)
+      setAccessToken(responseData.token)
       navigate('/feed')
+    } catch (error) {
+      console.error(error)
     }
   }
 
