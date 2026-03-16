@@ -5,26 +5,57 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { registerSchema, type RegisterFormData } from "@/schemas/register.schema"
-import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { useState } from "react"
+import { EyeIcon, EyeOffIcon, Loader2Icon } from "lucide-react"
+import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ca } from "zod/locales"
+import { useNavigate } from "react-router"
 
 function RegisterPage() {
   const [showPass, setShowPass] = useState<boolean>(false)
+  const [campuses, setCampuses] = useState<Array<{
+    id: string,
+    name: string,
+  }>>([])
+  const navigate = useNavigate()
 
-  const { register, handleSubmit, reset, control, formState: { errors, isSubmitting, isValid } } = useForm<RegisterFormData>({
+  useEffect(() => {
+    async function fetchCampuses() {
+      const response = await fetch("https://conectaifce-api.proflucasmendes.com.br/campuses")
+
+      if (response.ok) {
+        const data = await response.json()
+        setCampuses(data)
+      }
+    }
+
+    fetchCampuses()
+  }, [])
+
+  const { register, handleSubmit, reset, control, formState: { errors, isSubmitting, isValid }, watch } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: 'onBlur'
   })
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log('Enviando...', data)
+    const  { course, ...rest } = data
+    const payload = data.role === 'student' ? data : rest
 
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    const response = await fetch("https://conectaifce-api.proflucasmendes.com.br/auth/register", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
 
-    console.log('Usuário Cadastrado')
-    reset()
+    if (response.ok) {
+      const responseData = await response.json()
+      console.log(responseData)
+      localStorage.setItem('access_token', responseData.token)
+      navigate("/feed")
+    }
   }
 
   return (
@@ -80,6 +111,21 @@ function RegisterPage() {
             </div>
 
             <div className="flex flex-col gap-2">
+                <Label htmlFor="handle" className="text-foreground">Nome de Usuário</Label>
+                <Input
+                id="firstName" type="text"
+                placeholder="Seu nome de usuário" required
+                className="h-11 bg-background"
+                {...register('handle')} />
+
+                {errors.handle && (
+                  <p className="text-xs text-destructive">
+                    {errors.handle.message}
+                  </p>
+                )}
+              </div>
+
+            <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-foreground">E-mail Institucional</Label>
               <Input
               id="email" type="email"
@@ -130,9 +176,9 @@ function RegisterPage() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    <SelectItem value="taua">Tauá</SelectItem>
-                    <SelectItem value="boa_viagem">Boa Viagem</SelectItem>
-                    <SelectItem value="fortaleza">Fortaleza</SelectItem>
+                    { campuses && campuses.map(campus => (
+                      <SelectItem value={campus.id} key={campus.id}>{campus.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               )}/>
@@ -144,6 +190,22 @@ function RegisterPage() {
               )}
             </div>
 
+            { watch('role') === 'student' && (
+                <div className="flex flex-col gap-2">
+                <Label htmlFor="course" className="text-foreground">Curso</Label>
+                <Input
+                id="course" type="text"
+                placeholder="Seu curso" required
+                className="h-11 bg-background"
+                {...register('course')} />
+
+                {errors.course && (
+                  <p className="text-xs text-destructive">
+                    {errors.course.message}
+                  </p>
+                )}
+              </div>
+            ) }
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-foreground">Senha</Label>
@@ -174,7 +236,15 @@ function RegisterPage() {
               <p className="text-xs text-foreground">Mínimo de 8 caracteres com letras e números</p>
             </div>
 
-            <Button type="submit" className="mt-2 h-11">Criar Conta</Button>
+            <Button type="submit" className="mt-2 h-11" disabled={isSubmitting || !isValid}>
+              {
+                isSubmitting ? (
+                  <span className="flex items-center gap-4">
+                    <Loader2Icon className='size-4 animate-spin'/> <span>Criando conta...</span>
+                  </span>
+                ) : "Criar conta"
+              }
+            </Button>
           </form>
         </CardContent>
 
