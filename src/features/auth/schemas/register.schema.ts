@@ -1,4 +1,4 @@
-import { regex, z } from 'zod'
+import { z } from 'zod'
 
 export const registerSchema = z.object({
   firstName: z

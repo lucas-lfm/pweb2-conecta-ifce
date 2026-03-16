@@ -1,34 +1,10 @@
 import { setAccessToken } from '@/features/auth/storage/auth.storage'
 import { http } from '@/infra/http/http-client'
-import type { StringFormatParams } from 'zod/v4/core'
+import type { UserRequestDTO, UserResponseDTO } from '@/features/auth/types/dto/auth-dto'
 
 type CampusType = {
   id: string
   name: string
-}
-
-type UserRequestDTO = {
-  firstName: string
-  lastName: string
-  handle: string
-  email: string
-  role: 'student' | 'professor' | 'technician'
-  campus: string
-  password: string
-  course?: string | undefined
-}
-
-type UserResponseDTO = {
-  token: string,
-  user: UserRequestDTO & {
-    id: string,
-    name: string,
-    avatarUrl?: string,
-    campus: {
-      id: string,
-      name: string
-    }
-  }
 }
 
 export async function getCampuses(): Promise<Array<CampusType>> {
