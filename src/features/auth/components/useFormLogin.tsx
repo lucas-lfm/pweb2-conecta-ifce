@@ -31,10 +31,7 @@ export function useFormLogin() {
       setAccessToken(responseData.token)
       navigate('/feed')
     } catch (error) {
-      if (error instanceof ApiError) {
-        setAuthError(error.message)
-      }
-      console.error(error)
+    
     }
   }
 
