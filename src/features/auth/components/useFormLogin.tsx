@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
+import { ApiError } from '@/infra/http/api-error'
 
 export function useFormLogin() {
   const [showPass, setShowPass] = useState<boolean>(false)
@@ -30,8 +31,10 @@ export function useFormLogin() {
       setAccessToken(responseData.token)
       navigate('/feed')
     } catch (error) {
+      if (error instanceof ApiError) {
+        setAuthError(error.message)
+      }
       console.error(error)
-      setAuthError(error instanceof Error ? error.message : 'Erro desconhecido')
     }
   }
 
