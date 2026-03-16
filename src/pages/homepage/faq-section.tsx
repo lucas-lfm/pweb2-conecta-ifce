@@ -3,7 +3,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "@/components/ui/accordion"
+} from '@/shared/components/ui/accordion'
 
 const faq = [
   {
@@ -38,7 +38,9 @@ function FaqSection() {
     <section className="bg-card py-20" id="faq-section">
       <div className="container-main max-w-3xl">
         <div className="mx-auto text-center">
-          <p className="text-primary uppercase text-sm font-semibold tracking-wide">FAQ</p>
+          <p className="text-primary uppercase text-sm font-semibold tracking-wide">
+            FAQ
+          </p>
           <h2 className="mt-3 text-4xl font-bold text-balance text-foreground tracking-tight">
             Perguntas frequentes
           </h2>
