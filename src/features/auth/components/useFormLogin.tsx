@@ -6,11 +6,13 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { ApiError } from '@/infra/http/api-error'
 import { login } from '@/features/auth/services/login.service'
+import { useAuth } from '@/features/auth/contexts/AuthContext'
 
 export function useFormLogin() {
   const [showPass, setShowPass] = useState<boolean>(false)
   const [authError, setAuthError] = useState<string | null>(null)
   const navigate = useNavigate()
+  const { setAuthUser } = useAuth()
 
   const {
     register,
@@ -23,7 +25,8 @@ export function useFormLogin() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      login(data.email, data.password)
+      const responseData = await login(data.email, data.password)
+      setAuthUser(responseData.user)
       navigate('/feed')
     } catch (error) {
       if (error instanceof ApiError)
