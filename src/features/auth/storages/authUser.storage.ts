@@ -1,4 +1,4 @@
-import type { AuthUser } from "@/features/auth/types/dto/auth-dto"
+import type { AuthUser } from '@/features/auth/types/dto/AuthDTO'
 
 const KEY_AUTH_USER = 'auth_user'
 
@@ -16,8 +16,4 @@ function celarStoredUser() {
   localStorage.removeItem(KEY_AUTH_USER)
 }
 
-export {
-  setStoredUser,
-  getStoredUser,
-  celarStoredUser
-}
+export { setStoredUser, getStoredUser, celarStoredUser }
