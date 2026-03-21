@@ -10,12 +10,12 @@ function getAccessToken(): string | null {
   return token
 }
 
-function clearAcessToken() {
+function clearAccessToken() {
   localStorage.removeItem(KEY_TOKEN)
 }
 
 export {
   setAccessToken,
   getAccessToken,
-  clearAcessToken
+  clearAccessToken
 }
