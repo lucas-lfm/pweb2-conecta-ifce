@@ -6,21 +6,6 @@ export function useUserMenu() {
   const { authUser, clearAuthUser } = useAuth()
   const navigate = useNavigate()
 
-  const getInitials = (): string => {
-    const firstName = authUser?.firstName
-    const lastname = authUser?.lastName
-
-    if (firstName && lastname) {
-      return firstName[0].toUpperCase() + lastname[0].toUpperCase()
-    }
-
-    if (firstName) {
-      return firstName[0].toUpperCase()
-    }
-
-    return '?'
-  }
-
   const triggerLogout = () => {
     clearAuthUser()
     logout()
@@ -29,7 +14,6 @@ export function useUserMenu() {
 
   return {
     authUser,
-    getInitials,
     triggerLogout
   }
 }
