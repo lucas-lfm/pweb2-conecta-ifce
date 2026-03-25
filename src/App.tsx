@@ -1,13 +1,18 @@
-import { Button } from "@base-ui/react/button";
+
+import Navbar from "./components/shared/navbar";
 
 function App() {
 
 
   return (
     <>
-    <div className="min-h-svh bg-blue-500 flex items-center justify-center">
-      <Button>Entrar</Button>
-    </div>
+      <Navbar />
+      <main>
+        Conteúdo Principal
+      </main>
+      <footer>
+        Rodapé
+      </footer>
     </>
   );
 }
