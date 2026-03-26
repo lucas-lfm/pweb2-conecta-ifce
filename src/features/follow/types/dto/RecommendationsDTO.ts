@@ -1,4 +1,4 @@
-export type RecommendationsDTO {
+export type RecommendationsDTO = {
   items: Array<{
     id: string,
     firstName: string,
