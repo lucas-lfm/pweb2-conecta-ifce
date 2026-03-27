@@ -1,6 +1,6 @@
 import Navbar from '@/components/shared/navbar'
 import { Footer } from '@/components/shared/footer'
-import HomePage from '@/pages/HomePage'
+import HomePage from '@/pages/homepage/HomePage'
 
 function App() {
   return (
