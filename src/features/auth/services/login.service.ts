@@ -1,0 +1,19 @@
+import {
+  clearAccessToken,
+  setAcessToken,
+} from '@/features/auth/storages/token.storage'
+import { http } from '@/infra/http/http-client'
+import type { UserResponseDTO } from '@/features/auth/types/dto/AuthDTO'
+
+export async function login(email: string, password: string) {
+  const responseData = await http.post<UserResponseDTO>('auth/login', {
+    email,
+    password,
+  })
+  setAcessToken(responseData.token)
+  return responseData
+}
+
+export function logout(): void {
+  clearAccessToken()
+}
