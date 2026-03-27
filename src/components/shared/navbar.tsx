@@ -1,18 +1,33 @@
-import Brand from "@/components/shared/brand"
-import { Button } from "@/components/ui/button"
+import Brand from '@/components/shared/brand'
+import { Button } from '@/components/ui/button'
 
 function Navbar() {
   return (
-    <header className="sticky top-0 border-2b border-border z-50 bg-card/80 backdrop-blur-md" >
+    <header className="sticky top-0 border-2b border-border z-50 bg-card/80 backdrop-blur-md">
       <nav className="container-main flex items-center justify-between py-3">
         <a href="/">
           <Brand />
         </a>
 
         <div className="flex gap-4 lg:gap-8">
-          <a href="/" className="text-muted-foreground font-medium hover:text-primary">Inicio</a>
-          <a href="/#feature-section" className="text-muted-foreground font-medium hover:text-primary">Recursos</a>
-          <a href="/#faq-section" className="text-muted-foreground font-medium hover:text-primary">Perguntas Frequentes</a>
+          <a
+            href="/"
+            className="text-muted-foreground font-medium hover:text-primary"
+          >
+            Inicio
+          </a>
+          <a
+            href="/#feature-section"
+            className="text-muted-foreground font-medium hover:text-primary"
+          >
+            Recursos
+          </a>
+          <a
+            href="/#faq-section"
+            className="text-muted-foreground font-medium hover:text-primary"
+          >
+            Perguntas Frequentes
+          </a>
         </div>
 
         <div className="flex gap-2">
@@ -24,7 +39,6 @@ function Navbar() {
             <a href="/register">Criar Conta</a>
           </Button>
         </div>
-
       </nav>
     </header>
   )
