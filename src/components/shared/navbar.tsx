@@ -1,12 +1,12 @@
+import Brand from "@/components/shared/brand"
 import { Button } from "@/components/ui/button"
-import Brand from "./brand"
 
 function Navbar() {
   return (
     <header className="sticky top-0 border-2b border-border z-50 bg-card/80 backdrop-blur-md" >
       <nav className="container-main flex items-center justify-between py-3">
         <a href="/">
-          <Brand/>
+          <Brand />
         </a>
 
         <div className="flex gap-4 lg:gap-8">

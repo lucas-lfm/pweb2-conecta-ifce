@@ -1,17 +1,13 @@
-import Navbar from "./components/shared/navbar";
-import { Footer } from "./components/shared/footer"; // Importação nova
+import { AuthProvider } from '@/features/auth/contexts/AuthContext'
+import { router } from '@/routes/router'
+import { RouterProvider } from 'react-router'
 
 function App() {
   return (
-    <div className="flex flex-col min-h-svh">
-      <Navbar />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        {/* O conteúdo das próximas aulas entrará aqui */}
-        <h1 className="text-2xl font-bold">Conteúdo Principal</h1>
-      </main>
-      <Footer /> {/* Substituímos a tag footer simples pelo componente */}
-    </div>
-  );
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
-export default App;
+export default App
