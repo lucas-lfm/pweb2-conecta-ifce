@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# 🎓 ConectaIFCE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma mini rede social acadêmica desenvolvida para a comunidade do Instituto Federal do Ceará (Campus Tauá), permitindo a conexão, postagens e interação entre estudantes, professores e servidores.
 
-Currently, two official plugins are available:
+Este projeto foi desenvolvido como parte avaliativa da disciplina de **Programação Web II** do curso de Análise e Desenvolvimento de Sistemas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Tecnologias e Ferramentas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O projeto foi construído utilizando um ecossistema moderno para o desenvolvimento Front-end:
 
-## Expanding the ESLint configuration
+* **Core:** React 18, TypeScript, Vite.
+* **Roteamento:** React Router DOM (v6+).
+* **Estilização & UI:** TailwindCSS, Shadcn/UI, Lucide React (Ícones).
+* **Gerenciamento de Formulários:** React Hook Form.
+* **Validação de Dados:** Zod.
+* **Comunicação HTTP:** Fetch API nativa (encapsulada em um Custom HTTP Client).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏗️ Arquitetura e Padrões de Projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+A aplicação foi estruturada focando em **escalabilidade, coesão e baixo acoplamento**, fugindo de lógicas amontoadas em componentes visuais. Os principais padrões aplicados foram:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* **Feature-Sliced Design (FSD):** Separação do código por "Domínios" (ex: `auth`, `users`, `follow`), contendo seus próprios componentes, contextos e serviços isolados.
+* **Separation of Concerns (View-Model):** Utilização de Custom Hooks (ex: `useFormLogin`, `useFormRegister`) para gerenciar estado e regras de negócio, mantendo os componentes `.tsx` (Views) estritamente visuais e declarativos.
+* **Service Layer & DTOs:** Centralização de toda comunicação com a API em módulos de `services`, tipados com *Data Transfer Objects (DTOs)* para garantir contratos estritos entre Front-end e Back-end.
+* **Composition Pattern:** Utilizado na NavBar para permitir alta flexibilidade de renderização de links e avatares sem prop drilling.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔥 Desafios e Funcionalidades Extras Implementadas
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Além do escopo base das videoaulas, as seguintes funcionalidades e melhorias foram desenvolvidas como desafios de aprimoramento:
+
+### 1. Responsividade Aprimorada no Formulário de Login
+O *card* de login foi otimizado para uma experiência fluida em dispositivos móveis. A largura fixa (`w-md`) foi substituída por classes utilitárias responsivas (`w-full max-w-sm lg:max-w-md`), garantindo adaptação perfeita em telas pequenas sem quebrar o layout.
+
+### 2. Fluxo Completo de Recuperação e Redefinição de Senha
+Implementação de ponta a ponta do fluxo de esquecimento de senha:
+* **Fase 1 (Solicitação):** Rota `/recover` onde o usuário informa o e-mail. Tratamento de *Account Enumeration* implementado para segurança (exibição de sucesso padronizada).
+* **Fase 2 (Nova Senha):** Rota `/auth/reset-password` que intercepta o `token` via URL (Query Parameters), valida as novas senhas em tela (com Zod) e as envia junto ao token via *Body* para o back-end efetivar a troca.
+* **Feedback Visual:** Uso do estado de rotas do React Router para redirecionar o usuário à tela de login exibindo um *banner* dinâmico de sucesso.
+
+### 3. Otimização do Layout do Cadastro (CSS Grid)
+Redução da rolagem excessiva na tela de registro. Os campos com seletores curtos ("Vínculo" e "Campus") foram agrupados lado a lado usando CSS Grid (`grid-cols-2` a partir do *breakpoint* `md:`), economizando espaço vertical e melhorando a UI.
+
+### 4. Refatoração Total do Fluxo de Login (Hooks e View)
+Desmembramento da página monolítica de login aplicando a mesma arquitetura do Registro. Criação do componente isolado `FormLogin` e abstração de todo o gerenciamento de estados, submissão e interceptação de erros da API para o Custom Hook `useFormLogin`.
+
+### 5. Camada de Serviço (Services) e DTOs para o Fluxo de Auth
+Remoção do uso direto da ferramenta HTTP dentro dos componentes/hooks.
+* Criação de `login.service.ts`, `recover.service.ts` e `reset.service.ts`.
+* Adição das interfaces de requisição (`LoginRequestDTO`, `RecoverRequestDTO`, `ResetPasswordRequestDTO`) centralizadas no contrato global do projeto, melhorando o *IntelliSense* e prevenindo erros de tipagem na comunicação.
+
