@@ -1,0 +1,15 @@
+const KEY_TOKEN = 'access_token'
+
+function setAccessToken(token: string) {
+  localStorage.setItem(KEY_TOKEN, token)
+}
+
+function getAccessToken() {
+  localStorage.getItem(KEY_TOKEN)
+}
+
+function clearAcessToken() {
+  localStorage.removeItem(KEY_TOKEN)
+}
+
+export { setAccessToken, getAccessToken, clearAcessToken }
